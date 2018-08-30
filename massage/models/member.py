@@ -12,7 +12,7 @@ class Member(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     mb_id = db.Column(db.String(40), nullable=False, unique=True)
-    mb_pwd = db.Column(db.String(32), nullable=False)
+    mb_pwd = db.Column(db.String(255), nullable=False)
     mb_level = db.Column(db.Integer, nullable=False)
     mb_regtype = db.Column(db.String(2), nullable=False)
     mb_name = db.Column(db.String(20), nullable=False)
@@ -27,7 +27,7 @@ class Member(db.Model):
     mb_editdate = db.Column(db.String(20))
     mb_outdate = db.Column(db.String(20))
 
-    # device_token = db.relationship('DeviceToken', backref='users', uselist=False, lazy=True)
+    company = db.relationship('Company', backref='member', uselist=False, lazy=True)
     # login_logs = db.relationship('LoginLogs', backref='users', lazy=True)
     # user_payment = db.relationship('UserPayments', backref='users', lazy=True)
     # admin = db.relationship('Admins', backref='users', lazy=True)
