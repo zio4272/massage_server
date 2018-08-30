@@ -13,8 +13,8 @@ class Member(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     mb_id = db.Column(db.String(40), nullable=False, unique=True)
     mb_pwd = db.Column(db.String(255), nullable=False)
-    mb_level = db.Column(db.Integer, nullable=False)
-    mb_regtype = db.Column(db.String(2), nullable=False)
+    mb_level = db.Column(db.Integer, nullable=False) #1:일반회원, 2:업체회원, 9:슈퍼관리자
+    mb_regtype = db.Column(db.String(2), nullable=False) #NM:일반, KT:카톡, NV:네이버
     mb_name = db.Column(db.String(20), nullable=False)
     mb_email = db.Column(db.String(60), nullable=False)
     mb_phone = db.Column(db.String(20), nullable=False)
@@ -29,6 +29,7 @@ class Member(db.Model):
 
     company = db.relationship('Company', backref='member', lazy=True)
     ad_period = db.relationship('AdPeriod', backref='member', lazy=True)
+    coupon = db.relationship('Coupon', backref='member', lazy=True)
     
     @staticmethod
     def generate_password_hash(password):
