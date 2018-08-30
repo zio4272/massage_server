@@ -11,7 +11,8 @@ class Config(object):
     DEBUG = False
     TESTING = False
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:dlstkrhk1q@localhost/massage'
+    SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:dlstkrhk1q'+\
+        '@localhost/massage'
 
 class ProductionConfig(Config):
     """
@@ -30,4 +31,6 @@ class DevelopmentConfig(Config):
     For Development Config
     """
     DEBUG = True
+    JWT_SECRET = 'some secret key'
+    JWT_ALGORITHM = 'H512'
     
