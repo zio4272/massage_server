@@ -37,7 +37,7 @@ class Company(db.Model):
     cp_content = db.Column(db.Text, nullable=False) #가격/코스안내
     cp_open = db.Column(db.String(1), nullable=False, default=0) #노출여부 0:NO , 1:YES
     cp_regdate = db.Column(db.String(20), nullable=False) #등록일자
-    cp_editdate = db.Column(db.String(20), nullable=False) #수정일자
+    cp_edtdate = db.Column(db.String(20), nullable=False) #수정일자
     cp_ip = db.Column(db.String(20), nullable=False) #아이피
 
     ad_period = db.relationship('AdPeriod', backref='company', lazy=True)

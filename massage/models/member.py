@@ -24,7 +24,7 @@ class Member(db.Model):
     mb_ip = db.Column(db.String(20))
     mb_bandate = db.Column(db.String(20))
     mb_regdate = db.Column(db.String(20))
-    mb_editdate = db.Column(db.String(20))
+    mb_edtdate = db.Column(db.String(20))
     mb_outdate = db.Column(db.String(20))
 
     company = db.relationship('Company', backref='member', lazy=True)

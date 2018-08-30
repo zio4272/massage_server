@@ -13,7 +13,7 @@ class Area(db.Model):
     ar_title = db.Column(db.String(60), nullable=False) #상세지역명 - 경포대,강릉,정동진 ...
     ar_step = db.Column(db.Integer) #노출순서
     ar_regdate = db.Column(db.String(20), nullable=False) #등록일자
-    ar_editdate = db.Column(db.String(20), nullable=False) #수정일자
+    ar_edtdate = db.Column(db.String(20), nullable=False) #수정일자
     ar_ip = db.Column(db.String(20), nullable=False) #아이피
 
     company = db.relationship('Company', backref='area', lazy=True)
