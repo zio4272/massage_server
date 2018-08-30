@@ -4,3 +4,4 @@ from .area import Area
 from .ad_period import AdPeriod
 from .coupon import Coupon
 from .faq import Faq
+from .notice import Notice
