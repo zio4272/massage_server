@@ -30,6 +30,7 @@ class Member(db.Model):
     company = db.relationship('Company', backref='member', lazy=True)
     ad_period = db.relationship('AdPeriod', backref='member', lazy=True)
     coupon = db.relationship('Coupon', backref='member', lazy=True)
+    event_pub = db.relationship('EventPub', backref='member', lazy=True)
     
     @staticmethod
     def generate_password_hash(password):
