@@ -27,10 +27,7 @@ class Member(db.Model):
     mb_editdate = db.Column(db.String(20))
     mb_outdate = db.Column(db.String(20))
 
-    company = db.relationship('Company', backref='member', uselist=False, lazy=True)
-    # login_logs = db.relationship('LoginLogs', backref='users', lazy=True)
-    # user_payment = db.relationship('UserPayments', backref='users', lazy=True)
-    # admin = db.relationship('Admins', backref='users', lazy=True)
+    company = db.relationship('Company', backref='member', lazy=True)
     
     @staticmethod
     def generate_password_hash(password):
@@ -40,7 +37,7 @@ class Member(db.Model):
 
     @staticmethod
     def check_password_hash(password_hashed, password):
-        return password_hashed == Users.generate_password_hash(password)
+        return password_hashed == Member.generate_password_hash(password)
 
     @property
     def password(self):
@@ -54,16 +51,16 @@ class Member(db.Model):
         return self.check_password_hash(self.mb_pwd, password)
     
     @staticmethod
-    def verify_phone_number(phone_number):
+    def verify_phone_number(mb_phone):
         phone_pattern = re.compile(r'^[\d]{3}-[\d]{3,4}-[\d]{4}$')
         return phone_pattern.match(mb_phone)
 
     @staticmethod
-    def verify_email(email):
+    def verify_email(mb_email):
         email_pattern = re.compile(r'^[A-Z0-9a-z._%+-]{1,64}@[A-Za-z0-9.-]{2,}\.[A-Za-z0-9.-]{2,}$')
         return email_pattern.match(mb_email)
 
     @staticmethod
-    def verify_name(name):
+    def verify_name(mb_name):
         name_pattern = re.compile(r'^[가-힣]{2,5}$')
         return name_pattern.match(mb_name)
