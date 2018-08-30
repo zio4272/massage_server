@@ -45,3 +45,4 @@ class Company(db.Model):
     event_pub = db.relationship('EventPub', backref='company', lazy=True)
     event = db.relationship('Event', backref='company', lazy=True)
     favorite = db.relationship('Favorite', backref='company', lazy=True)
+    review = db.relationship('Review', backref='company', lazy=True)
