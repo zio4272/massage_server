@@ -44,3 +44,4 @@ class Company(db.Model):
     viewlog = db.relationship('Viewlog', backref='company', lazy=True)
     event_pub = db.relationship('EventPub', backref='company', lazy=True)
     event = db.relationship('Event', backref='company', lazy=True)
+    favorite = db.relationship('Favorite', backref='company', lazy=True)

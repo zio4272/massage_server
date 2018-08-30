@@ -8,3 +8,4 @@ from .notice import Notice
 from .viewlog import Viewlog
 from .event_pub import EventPub
 from .event import Event
+from .favorite import Favorite
