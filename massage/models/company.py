@@ -8,7 +8,7 @@ class Company(db.Model):
     """ 업체정보 테이블 """
     __tablename__ = 'company'
 
-    cp_idx = db.Column(db.Integer, primary_key=True)
+    cp_idx = db.Column(db.Integer, nullable=False, primary_key=True)
     mb_id = db.Column(db.Integer, db.ForeignKey('member.id'), nullable=False)
     cp_sangho = db.Column(db.String(60), nullable=False)
     cp_always_time = db.Column(db.String(1), nullable=False, default=0) #24시간 0:NO , 1:YES
@@ -31,7 +31,7 @@ class Company(db.Model):
     cp_addr2 = db.Column(db.String(255), nullable=False) #상세주소
     cp_lat = db.Column(db.Numeric(15, 10), nullable=False, default=0)
     cp_long = db.Column(db.Numeric(15, 10), nullable=False, default=0)
-    ar_idx = db.Column(db.String(20), db.ForeignKey('area.ar_idx'), nullable=False) #지역구분
+    ar_idx = db.Column(db.Integer, db.ForeignKey('area.ar_idx'), nullable=False) #지역구분
     cp_star = db.Column(db.String(20)) #별점
     cp_fav = db.Column(db.Integer) #찜갯수
     cp_content = db.Column(db.Text, nullable=False) #가격/코스안내
@@ -41,3 +41,4 @@ class Company(db.Model):
     cp_ip = db.Column(db.String(20), nullable=False) #아이피
 
     ad_period = db.relationship('AdPeriod', backref='company', lazy=True)
+    viewlog = db.relationship('Viewlog', backref='company', lazy=True)

@@ -8,7 +8,7 @@ class Area(db.Model):
     """ 지역 테이블 """
     __tablename__ = 'area'
 
-    ar_idx = db.Column(db.Integer, primary_key=True)
+    ar_idx = db.Column(db.Integer, nullable=False, primary_key=True)
     ar_area = db.Column(db.String(4), nullable=False) #지역 - 서울,경기,부산,대구 ...
     ar_title = db.Column(db.String(60), nullable=False) #상세지역명 - 경포대,강릉,정동진 ...
     ar_step = db.Column(db.Integer) #노출순서

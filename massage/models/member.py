@@ -10,7 +10,7 @@ class Member(db.Model):
     """ 사용자 테이블 """
     __tablename__ = 'member'
 
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.Integer, nullable=False, primary_key=True)
     mb_id = db.Column(db.String(40), nullable=False, unique=True)
     mb_pwd = db.Column(db.String(255), nullable=False)
     mb_level = db.Column(db.Integer, nullable=False) #1:일반회원, 2:업체회원, 9:슈퍼관리자
