@@ -14,5 +14,5 @@ class Faq(db.Model):
     bo_content = db.Column(db.Text, nullable=False) #내용
     bo_step = db.Column(db.Integer) #노출순서 등록시 max+1이 되고 수정이 가능해야함
     bo_regdate = db.Column(db.String(20), nullable=False) #등록일자
-    bo_edtdate = db.Column(db.String(20), nullable=False) #수정일자
+    bo_edtdate = db.Column(db.String(20)) #수정일자
     bo_ip = db.Column(db.String(20)) #아이피

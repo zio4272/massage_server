@@ -14,7 +14,7 @@ class Notice(db.Model):
     bo_content = db.Column(db.Text, nullable=False) #내용
     bo_notice = db.Column(db.String(1), nullable=False, default='0') #상단공지여부 기본값0, 0:일반, 1:상단
     bo_regdate = db.Column(db.String(20), nullable=False) #등록일자
-    bo_edtdate = db.Column(db.String(20), nullable=False) #수정일자
+    bo_edtdate = db.Column(db.String(20)) #수정일자
     bo_ip = db.Column(db.String(20))
 
     company = db.relationship('Company', backref='area', lazy=True)

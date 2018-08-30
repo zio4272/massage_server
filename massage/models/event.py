@@ -17,7 +17,7 @@ class Event(db.Model):
     ev_pubdate = db.Column(db.String(20), nullable=False,) #당첨자발표날짜
     ev_summary = db.Column(db.Text, nullable=False,) #이벤트설명
     ev_regdate = db.Column(db.String(20), nullable=False) #등록일자
-    ev_edtdate = db.Column(db.String(20), nullable=False) #수정일자
+    ev_edtdate = db.Column(db.String(20)) #수정일자
     ev_ip = db.Column(db.String(20)) #아이피
 
     event_pub = db.relationship('EventPub', backref='event', lazy=True)
