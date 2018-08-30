@@ -39,3 +39,5 @@ class Company(db.Model):
     cp_regdate = db.Column(db.String(20), nullable=False) #등록일자
     cp_editdate = db.Column(db.String(20), nullable=False) #수정일자
     cp_ip = db.Column(db.String(20), nullable=False) #아이피
+
+    ad_period = db.relationship('AdPeriod', backref='company', lazy=True)

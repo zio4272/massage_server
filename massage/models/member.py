@@ -28,6 +28,7 @@ class Member(db.Model):
     mb_outdate = db.Column(db.String(20))
 
     company = db.relationship('Company', backref='member', lazy=True)
+    ad_period = db.relationship('AdPeriod', backref='member', lazy=True)
     
     @staticmethod
     def generate_password_hash(password):
