@@ -33,6 +33,7 @@ class Member(db.Model):
     event_pub = db.relationship('EventPub', backref='member', lazy=True)
     favorite = db.relationship('Favorite', backref='member', lazy=True)
     review = db.relationship('Review', backref='member', lazy=True)
+    files = db.relationship('Files', backref='member', lazy=True)
     
     @staticmethod
     def generate_password_hash(password):
