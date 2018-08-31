@@ -31,7 +31,8 @@ class Company(db.Model):
     cp_addr2 = db.Column(db.String(255), nullable=False) #상세주소
     cp_lat = db.Column(db.Numeric(15, 10), nullable=False, default=0)
     cp_long = db.Column(db.Numeric(15, 10), nullable=False, default=0)
-    ar_idx = db.Column(db.Integer, db.ForeignKey('area.ar_idx'), nullable=False) #지역구분
+    am_idx = db.Column(db.Integer, db.ForeignKey('area_main.am_idx'), nullable=False) #지역구분 - 메인
+    as_idx = db.Column(db.Integer, db.ForeignKey('area_sub.as_idx'), nullable=False) #지역구분 - 서브
     cp_star = db.Column(db.String(20)) #별점
     cp_fav = db.Column(db.Integer) #찜갯수
     cp_content = db.Column(db.Text, nullable=False) #가격/코스안내
