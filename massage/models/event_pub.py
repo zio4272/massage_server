@@ -14,5 +14,5 @@ class EventPub(db.Model):
     mb_id = db.Column(db.Integer,  db.ForeignKey('member.id'), nullable=False) #회원아이디
     ep_regdate = db.Column(db.String(40), nullable=False,) #날짜
 
-    company = db.relationship('Company', backref='event_pub', lazy=True)
-    event = db.relationship('Event', backref='event_pub', lazy=True)
+    company = db.relationship('Company', back_populates='event_pub')
+    event = db.relationship('Event', back_populates='event_pub')

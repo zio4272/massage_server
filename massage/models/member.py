@@ -13,8 +13,8 @@ class Member(db.Model):
     id = db.Column(db.Integer, nullable=False, primary_key=True)
     mb_id = db.Column(db.String(40), nullable=False, unique=True)
     mb_pwd = db.Column(db.String(255), nullable=False)
-    mb_level = db.Column(db.Integer, nullable=False) #1:일반회원, 2:업체회원, 9:슈퍼관리자
-    mb_regtype = db.Column(db.String(2), nullable=False) #NM:일반, KT:카톡, NV:네이버
+    mb_level = db.Column(db.Integer, nullable=False, default=1) #1:일반회원, 2:업체회원, 9:슈퍼관리자
+    mb_regtype = db.Column(db.String(2), nullable=False, default='NM') #NM:일반, KT:카톡, NV:네이버
     mb_name = db.Column(db.String(20), nullable=False)
     mb_email = db.Column(db.String(60), nullable=False)
     mb_phone = db.Column(db.String(20), nullable=False)
@@ -42,8 +42,8 @@ class Member(db.Model):
         return hashlib.md5(pre_hashed.encode('utf8')).hexdigest()
 
     @staticmethod
-    def check_password_hash(password_hashed, password):
-        return password_hashed == Member.generate_password_hash(password)
+    def check_password_hash(mb_pwd, password):
+        return mb_pwd == Member.generate_password_hash(password)
 
     @property
     def password(self):

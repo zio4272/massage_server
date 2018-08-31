@@ -16,5 +16,3 @@ class Notice(db.Model):
     bo_regdate = db.Column(db.String(20), nullable=False) #등록일자
     bo_edtdate = db.Column(db.String(20)) #수정일자
     bo_ip = db.Column(db.String(20))
-
-    company = db.relationship('Company', backref='area', lazy=True)

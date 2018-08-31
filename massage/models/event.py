@@ -20,4 +20,4 @@ class Event(db.Model):
     ev_edtdate = db.Column(db.String(20)) #수정일자
     ev_ip = db.Column(db.String(20)) #아이피
 
-    event_pub = db.relationship('EventPub', backref='event', lazy=True)
+    event_pub = db.relationship('EventPub', back_populates='event')

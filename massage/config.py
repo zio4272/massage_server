@@ -32,5 +32,5 @@ class DevelopmentConfig(Config):
     """
     DEBUG = True
     JWT_SECRET = 'some secret key'
-    JWT_ALGORITHM = 'H512'
+    JWT_ALGORITHM = 'HS512'
     

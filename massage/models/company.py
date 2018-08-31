@@ -42,7 +42,7 @@ class Company(db.Model):
 
     ad_period = db.relationship('AdPeriod', backref='company', lazy=True)
     viewlog = db.relationship('Viewlog', backref='company', lazy=True)
-    event_pub = db.relationship('EventPub', backref='company', lazy=True)
+    event_pub = db.relationship('EventPub', back_populates='company')
     event = db.relationship('Event', backref='company', lazy=True)
     favorite = db.relationship('Favorite', backref='company', lazy=True)
     review = db.relationship('Review', backref='company', lazy=True)
