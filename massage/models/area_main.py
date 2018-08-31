@@ -10,7 +10,6 @@ class AreaMain(db.Model):
 
     am_idx = db.Column(db.Integer, nullable=False, primary_key=True)
     am_area = db.Column(db.String(4), nullable=False) #지역 - 서울,경기,부산,대구 ...
-    am_title = db.Column(db.String(60), nullable=False) #상세지역명 - 경포대,강릉,정동진 ...
     am_step = db.Column(db.Integer) #노출순서
     am_regdate = db.Column(db.String(20), nullable=False) #등록일자
     am_edtdate = db.Column(db.String(20)) #수정일자
