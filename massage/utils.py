@@ -1,5 +1,8 @@
 # -*- coding: utf8 -*-
 
+def error_message(name):
+    return ValueError("The parameter '{}' is not valid.".format(name))
+
 class RestfulType:
     @staticmethod
     def user_type(value, name):

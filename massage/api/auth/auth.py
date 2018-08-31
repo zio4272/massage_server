@@ -27,6 +27,9 @@ signin_parser.add_argument('mb_id', type=RestfulType.alphanumeric,\
 signin_parser.add_argument('mb_pwd', type=RestfulType.alphanumeric,\
     required=True, location='form')
 
+token_parser = reqparse.RequestParser()
+token_parser.add_argument('X-Http-Token', type=str, location='headers', dest='token')
+
 
 class Auth(Resource):
     @swagger.doc({
@@ -305,3 +308,93 @@ class Auth(Resource):
                 'code': 400,
                 'message': '아이디가 존재하지 않습니다.'
             }, 400
+
+    @swagger.doc({
+        'tags': ['member'],
+        'description': '토큰으로 유저 조회',
+        'parameters': [
+            {
+                'name': 'X-Http-Token',
+                'description': '토큰으로 유저 조회',
+                'in': 'header',
+                'type': 'string',
+                'required': True
+            }
+        ],
+        'responses': {
+            '200': {
+                'description': '토큰으로 조회 성공',
+                'schema': ResponseModel,
+                'examples': {
+                    'application/json': {
+                        'code': 200,
+                        'message': '토큰으로 조회 성공',
+                        'data': {
+                            "member": {
+                                "id": 2,
+                                "mb_id": "qkrqhdud1004",
+                                "mb_level": 1,
+                                "mb_regtype": "NM",
+                                "mb_name": "박보영",
+                                "mb_email": "qkrqhdud@1004.com",
+                                "mb_phone": "010-1234-5678",
+                                "mb_autologin": "0",
+                                "mb_use_push": "1",
+                                "mb_state": "N",
+                                "mb_ip": 'null',
+                                "mb_bandate": 'null',
+                                "mb_regdate": "2018-08-31 10:22:15",
+                                "mb_edtdate": 'null',
+                                "mb_outdate": 'null'
+                            },
+                            "member_token": "some value"
+                        }
+                    }
+                }
+            },
+            '400': {
+                'description': '올바르지 않은 조회',
+                'schema': ResponseModel,
+                'examples': {
+                    'application/json': {
+                        'code': 400,
+                        'message': '올바르지 않은 토큰입니다.'
+                    }
+                }
+            }
+        }
+    })
+    def get(self):
+        """토큰으로 유저조회"""
+        args = token_parser.parse_args()
+        member = decode_token(args['token'])
+
+        if member:
+            return {
+                'code': 200,
+                'message': '토큰으로 조회 성공',
+                'data': {
+                    'member': {
+                        'id': member.id,
+                        'mb_id': member.mb_id,
+                        'mb_level': member.mb_level,
+                        'mb_regtype': member.mb_regtype,
+                        'mb_name': member.mb_name,
+                        'mb_email': member.mb_email,
+                        'mb_phone': member.mb_phone,
+                        'mb_autologin': member.mb_autologin,
+                        'mb_use_push': member.mb_use_push,
+                        'mb_state': member.mb_state,
+                        'mb_ip': member.mb_ip,
+                        'mb_bandate': member.mb_bandate,
+                        'mb_regdate': member.mb_regdate,
+                        'mb_edtdate': member.mb_edtdate,
+                        'mb_outdate': member.mb_outdate
+                    },
+                    'member_token': encode_token(member)
+                }
+            }, 200
+        return {
+            'code': 400,
+            'message': '올바르지 않은 토큰입니다.'
+        }, 400,
