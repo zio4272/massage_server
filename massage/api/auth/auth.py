@@ -243,6 +243,12 @@ class Auth(Resource):
 
         if member is not None:
             if member.verify_password(args['mb_pwd']):
+                if member.mb_bandate:
+                    return {
+                        'code': 400,
+                        'message': '정지된 유저 입니다.'
+                    }, 400
+
                 return {
                     'code': 200,
                     'message': '로그인 성공.',
