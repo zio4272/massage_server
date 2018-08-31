@@ -3,11 +3,13 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_restful_swagger_2 import Api
 from flask_swagger_ui import get_swaggerui_blueprint
+from flask_cors import CORS
 
 db = SQLAlchemy()
 
 def create_app(config_name):
     app = Flask(__name__)
+    CORS(app)
 
     app.config.from_object('massage.config.{0}'.format(config_name))
 
