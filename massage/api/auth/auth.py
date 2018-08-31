@@ -21,6 +21,13 @@ signup_parser.add_argument('mb_name', type=str, required=True, location='form')
 signup_parser.add_argument('mb_email', type=str, required=True, location='form')
 signup_parser.add_argument('mb_phone', type=str, required=True, location='form')
 
+signin_parser = reqparse.RequestParser()
+signin_parser.add_argument('mb_id', type=RestfulType.alphanumeric,\
+    required=True, location='form')
+signin_parser.add_argument('mb_pwd', type=RestfulType.alphanumeric,\
+    required=True, location='form')
+
+
 class Auth(Resource):
     @swagger.doc({
         'tags': ['member'],
@@ -33,7 +40,7 @@ class Auth(Resource):
                 'type': 'string',
                 'required': True
             }, {
-                'name': 'mb_pwd',
+                'name': 'password',
                 'description': '유저 비밀번호',
                 'in': 'formData',
                 'type': 'string',
@@ -74,9 +81,9 @@ class Auth(Resource):
                                 "mb_name": "박보영",
                                 "mb_email": "qkrqhdud@1004.com",
                                 "mb_phone": "010-1234-5678",
-                                "mb_regdate": "2018-08-31 09:14:55",
-                                "member_token": "some value"
-                            }
+                                "mb_regdate": "2018-08-31 09:14:55"
+                            },
+                            "member_token": "some value"
                         }
                     }
                 }
@@ -148,7 +155,7 @@ class Auth(Resource):
 
         new_member = Member()
         new_member.mb_id = args['mb_id']
-        new_member.mb_pwd = args['mb_pwd']
+        new_member.password = args['mb_pwd']
         new_member.mb_name = args['mb_name']
         new_member.mb_email = args['mb_email']
         new_member.mb_phone = args['mb_phone']
@@ -172,8 +179,102 @@ class Auth(Resource):
                     'mb_name': new_member.mb_name,
                     'mb_email': new_member.mb_email,
                     'mb_phone': new_member.mb_phone,
-                    'mb_regdate': new_member.mb_regdate,
-                    'member_token': encode_token(new_member)
-                }
+                    'mb_regdate': new_member.mb_regdate
+                },
+                'member_token': encode_token(new_member)
             }
         }, 201
+
+    @swagger.doc({
+        'tags': ['member'],
+        'description': '로그인',
+        'parameters': [
+            {
+                'name': 'mb_id',
+                'description': '유저 아이디',
+                'in': 'formData',
+                'type': 'string',
+                'required': True
+            }, {
+                'name': 'mb_pwd',
+                'description': '유저 비밀번호',
+                'in': 'formData',
+                'type': 'string',
+                'required': True
+            }
+        ],
+        'responses': {
+            '201': {
+                'description': '로그인 성공',
+                'schema': ResponseModel,
+                'examples': {
+                    'application/json': {
+                        'code': 201,
+                        'message': '로그인 성공',
+                        'data': {
+                             "member": {
+                                "id": 2,
+                                "mb_id": "qkrqhdud1004",
+                                "mb_level": 1,
+                                "mb_regtype": "NM",
+                                "mb_name": "박보영",
+                                "mb_email": "qkrqhdud@1004.com",
+                                "mb_phone": "010-1234-5678",
+                                "mb_autologin": "0",
+                                "mb_use_push": "1",
+                                "mb_state": "N",
+                                "mb_ip": 'null',
+                                "mb_bandate": 'null',
+                                "mb_regdate": "2018-08-31 10:22:15",
+                                "mb_edtdate": 'null',
+                                "mb_outdate": 'null'
+                            },
+                            "member_token": "some value"
+                        }
+                    }
+                }
+            }
+        }
+    })
+    def post(self):
+        """ 로그인 """
+        args = signin_parser.parse_args()
+        member = Member.query.filter_by(mb_id=args['mb_id']).first()
+
+        if member is not None:
+            if member.verify_password(args['mb_pwd']):
+                return {
+                    'code': 200,
+                    'message': '로그인 성공.',
+                    'data': {
+                        'member': {
+                            'id': member.id,
+                            'mb_id': member.mb_id,
+                            'mb_level': member.mb_level,
+                            'mb_regtype': member.mb_regtype,
+                            'mb_name': member.mb_name,
+                            'mb_email': member.mb_email,
+                            'mb_phone': member.mb_phone,
+                            'mb_autologin': member.mb_autologin,
+                            'mb_use_push': member.mb_use_push,
+                            'mb_state': member.mb_state,
+                            'mb_ip': member.mb_ip,
+                            'mb_bandate': member.mb_bandate,
+                            'mb_regdate': member.mb_regdate,
+                            'mb_edtdate': member.mb_edtdate,
+                            'mb_outdate': member.mb_outdate
+                        },
+                        'member_token': encode_token(member)
+
+                    }
+                }, 200,
+            else:
+                return {
+                    'code': 400,
+                    'messgae': '비밀번호가 올바르지 않습니다.'
+                }, 400
+        else:
+            return {
+                'code': 400,
+                'message': '아이디가 존재하지 않습니다.'
+            }, 400
