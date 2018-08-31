@@ -9,6 +9,9 @@ from massage import db
 from massage.swagger import ResponseModel
 from massage.models import AreaMain, AreaSub
 
+post_parser = reqparse.RequestParser()
+post_parser.add_argument('am_idx', type=str, location='form', required=True)
+
 class AreaList(Resource):
     @swagger.doc({
         'tags': ['area'],
@@ -268,8 +271,6 @@ class AreaList(Resource):
         print(main)
 
         if main:
-        
-
             return {
                 'code': 200,
                 'message': '지역 전체조회 성공',
@@ -279,3 +280,98 @@ class AreaList(Resource):
                     ]
                 }
             }, 200
+        return {
+            'code': 400,
+            'message': '데이터가 존재하지 않습니다.'
+        }, 400
+
+    @swagger.doc({
+        'tags': ['area'],
+        'description': '지역별 조회',
+        'parameters': [
+            {
+                'name': 'am_idx',
+                'description': 'area_main idx',
+                'in': 'formData',
+                'type': 'string',
+                'required': True
+            }            
+        ],
+        'responses': {
+            '200': {
+                'description': '지역별 조회',
+                'schema': ResponseModel,
+                'examples': {
+                    'application/json': {
+                        'code': 200,
+                        'message': '지역별 조회 성공',
+                        'data': {
+                            "area_main": [
+                                {
+                                    "am_idx": 1,
+                                    "am_area": "서울",
+                                    "am_step": 'null',
+                                    "am_regdate": "",
+                                    "am_edtdate": 'null',
+                                    "am_ip": 'null',
+                                    "area_sub": [
+                                        {
+                                            "as_idx": 1,
+                                            "am_idx": 1,
+                                            "as_area": "강남/역삼/서초",
+                                            "as_step": 'null',
+                                            "as_regdate": "",
+                                            "as_edtdate": 'null',
+                                            "as_ip": 'null'
+                                        },
+                                        {
+                                            "as_idx": 2,
+                                            "am_idx": 1,
+                                            "as_area": "송파/잠실/신천",
+                                            "as_step": 'null',
+                                            "as_regdate": "",
+                                            "as_edtdate": 'null',
+                                            "as_ip": 'null'
+                                        },
+                                        {
+                                            "as_idx": 3,
+                                            "am_idx": 1,
+                                            "as_area": "영등포/구로/금천",
+                                            "as_step": 'null',
+                                            "as_regdate": "",
+                                            "as_edtdate": 'null',
+                                            "as_ip": 'null'
+                                        }
+                                    ]
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    })
+    def post(self):
+        """ 지역별 조회 """
+        args = post_parser.parse_args()
+
+        main = AreaMain.query\
+            .filter(AreaMain.am_idx == args['am_idx'])\
+            .all()
+            
+        print(main)
+
+        if main:
+            return {
+                'code': 200,
+                'message': '지역별 조회 성공',
+                'data': {
+                    'area_main': [
+                        x.get_area_main_object(sub_object=True) for x in main
+                    ]
+                }
+            }, 200
+        return {
+            'code': 400,
+            'message': '데이터가 존재하지 않습니다.'
+        }, 400
