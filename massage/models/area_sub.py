@@ -17,3 +17,16 @@ class AreaSub(db.Model):
     as_ip = db.Column(db.String(20)) #아이피
 
     company = db.relationship('Company', backref='area_sub', lazy=True)
+
+    def get_area_sub_object(self):
+        area_sub = {
+            'as_idx': self.as_idx,
+            'am_idx': self.am_idx,
+            'as_area': self.as_area,
+            'as_step': self.as_step,
+            'as_regdate': self.as_regdate,
+            'as_edtdate': self.as_edtdate,
+            'as_ip': self.as_ip
+        }
+
+        return area_sub

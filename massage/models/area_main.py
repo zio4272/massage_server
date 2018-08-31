@@ -16,4 +16,21 @@ class AreaMain(db.Model):
     am_ip = db.Column(db.String(20)) #아이피
 
     company = db.relationship('Company', backref='area_main', lazy=True)
-    company = db.relationship('AreaSub', back_populates='area_main')
+    area_sub = db.relationship('AreaSub', backref='area_main', lazy=True)
+
+    def get_area_main_object(self, sub_object=False):
+        area_main = {
+            'am_idx': self.am_idx,
+            'am_area': self.am_area,
+            'am_step': self.am_step,
+            'am_regdate': self.am_regdate,
+            'am_edtdate': self.am_edtdate,
+            'am_ip': self.am_ip
+        }
+
+        if sub_object:
+            area_main['area_sub'] = []
+            for sub in self.area_sub:
+                area_main['area_sub'].append(sub.get_area_sub_object())
+
+        return area_main
