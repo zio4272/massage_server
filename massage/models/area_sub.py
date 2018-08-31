@@ -18,7 +18,7 @@ class AreaSub(db.Model):
 
     company = db.relationship('Company', backref='area_sub', lazy=True)
 
-    def get_area_sub_object(self):
+    def get_area_sub_object(self, company_object=False):
         area_sub = {
             'as_idx': self.as_idx,
             'am_idx': self.am_idx,
@@ -28,5 +28,10 @@ class AreaSub(db.Model):
             'as_edtdate': self.as_edtdate,
             'as_ip': self.as_ip
         }
+
+        if company_object:
+            area_sub['company'] = []
+            for companys in self.company:
+                area_sub['company'].append(companys.get_company_object())
 
         return area_sub

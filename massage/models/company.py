@@ -11,8 +11,8 @@ class Company(db.Model):
     cp_idx = db.Column(db.Integer, nullable=False, primary_key=True)
     mb_id = db.Column(db.Integer, db.ForeignKey('member.id'), nullable=False)
     cp_sangho = db.Column(db.String(60), nullable=False)
-    cp_always_time = db.Column(db.String(1), nullable=False, default=0) #24시간 0:NO , 1:YES
-    cp_always_day = db.Column(db.String(1), nullable=False, default=0) #연중무휴 0:NO , 1:YES
+    cp_always_time = db.Column(db.String(1), nullable=False, default='0') #24시간 0:NO , 1:YES
+    cp_always_day = db.Column(db.String(1), nullable=False, default='0') #연중무휴 0:NO , 1:YES
     cp_otime = db.Column(db.String(20), nullable=False) #오픈시간
     cp_ctime = db.Column(db.String(20), nullable=False) #마감시간
     cp_h_0 = db.Column(db.String(1), nullable=False) #휴일(일)
@@ -47,3 +47,41 @@ class Company(db.Model):
     event = db.relationship('Event', backref='company', lazy=True)
     favorite = db.relationship('Favorite', backref='company', lazy=True)
     review = db.relationship('Review', backref='company', lazy=True)
+
+    def get_company_object(self):
+        company = {
+            'cp_idx': self.cp_idx,
+            'mb_id': self.mb_id,
+            'cp_sangho': self.cp_sangho,
+            'cp_always_time': self.cp_always_time,
+            'cp_always_day': self.cp_always_day,
+            'cp_otime': self.cp_otime,
+            'cp_ctime': self.cp_ctime,
+            'cp_h_0': self.cp_h_0,
+            'cp_h_1': self.cp_h_1,
+            'cp_h_2': self.cp_h_2,
+            'cp_h_3': self.cp_h_3,
+            'cp_h_4': self.cp_h_4,
+            'cp_h_5': self.cp_h_5,
+            'cp_h_6': self.cp_h_6,
+            'cp_price': self.cp_price,
+            'cp_sale_price': self.cp_sale_price,
+            'cp_phone': self.cp_phone,
+            'cp_vphone': self.cp_vphone,
+            'cp_zipcode': self.cp_zipcode,
+            'cp_addr1': self.cp_addr1,
+            'cp_addr2': self.cp_addr2,
+            'cp_lat': str(self.cp_lat),
+            'cp_long': str(self.cp_long),
+            'am_idx': self.am_idx,
+            'as_idx': self.as_idx,
+            'cp_star': self.cp_star,
+            'cp_fav': self.cp_fav,
+            'cp_content': self.cp_content,
+            'cp_open': self.cp_open,
+            'cp_regdate': self.cp_regdate,
+            'cp_edtdate': self.cp_edtdate,
+            'cp_ip': self.cp_ip
+        }
+
+        return company

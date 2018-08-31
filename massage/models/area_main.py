@@ -18,7 +18,7 @@ class AreaMain(db.Model):
     company = db.relationship('Company', backref='area_main', lazy=True)
     area_sub = db.relationship('AreaSub', backref='area_main', lazy=True)
 
-    def get_area_main_object(self, sub_object=False):
+    def get_area_main_object(self, sub_object=False, company_object=False):
         area_main = {
             'am_idx': self.am_idx,
             'am_area': self.am_area,
@@ -32,5 +32,10 @@ class AreaMain(db.Model):
             area_main['area_sub'] = []
             for sub in self.area_sub:
                 area_main['area_sub'].append(sub.get_area_sub_object())
+        
+        if company_object:
+            area_main['company'] = []
+            for companys in self.company:
+                area_main['company'].append(companys.get_company_object())
 
         return area_main
